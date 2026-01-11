@@ -27,10 +27,7 @@ pipeline {
             steps {
                 bat '''
                 chcp 65001
-                newman run collections/Collection_Client.postman_collection.json ^
-                --environment environments/test.postman_environment.json ^
-                --reporters cli,htmlextra ^
-                --reporter-htmlextra-export report.html
+                newman run "C:\Users\User\Desktop\Postman_Collections\Collection_Client.postman_collection.json"
                 '''
             }
         }
