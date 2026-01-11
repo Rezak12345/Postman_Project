@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "7c3d4d28-2a1a-44ee-bb4b-c0522f97f7eb",
+		"name": "Collection_Client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "51248652",
+		"_collection_link": "https://khouasrezak-2007781.postman.co/workspace/701dda4e-b991-458d-8032-9de70091ce13/collection/51248652-7c3d4d28-2a1a-44ee-bb4b-c0522f97f7eb?action=share&source=collection_link&creator=51248652"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    if(pm.response.to.have.status(201)) {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"newId\", jsonData.id);\r",
+									"\r",
+									"    console.info('j ai créé un nouvel utilisateur avec le nom : ' + jsonData.name + ' et son id est ' + jsonData.id);\r",
+									"}\r",
+									"\r",
+									"else\r",
+									"\r",
+									"{\r",
+									"    console.info('client non créer');\r",
+									"    console.error()\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test.skip('your test name', function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql(100);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jakson\",\r\n    \"car\": \"Mazda\",\r\n    \"address\": [],\r\n    \"experience\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers"
+					},
+					"response": []
+				},
+				{
+					"name": "VarDynRequest",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('nom', pm.iterationData.get('name'))\r",
+									"pm.collectionVariables.set('voiture', pm.iterationData.get('car'))"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"{{nom}}\",\r\n        \"car\": \"{{voiture}}\",\r\n        \"address\": [],\r\n        \"experience\": false\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers"
+					},
+					"response": []
+				},
+				{
+					"name": "RanVarRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"{{$randomLastName}}\",\r\n        \"car\": \"BMW\",\r\n        \"address\": [],\r\n        \"experience\": false\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers"
+					},
+					"response": []
+				},
+				{
+					"name": "RanVarRequest_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set('nom', pm.variables.replaceIn('{{$randomLastName}}'))\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"{{nom}}\",\r\n        \"car\": \"BMW\",\r\n        \"address\": [],\r\n        \"experience\": false\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patch",
+			"item": [
+				{
+					"name": "PatchUpdateClient",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    if(pm.response.to.have.status(200)) {\r",
+									"        console.info('le client ' + pm.collectionVariables.get('newId') + ' a été mis à jour avec succès');\r",
+									"    }else{\r",
+									"        console.info('le client ' + pm.collectionVariables.get('newId') + ' n a pas été mis à jour');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test.skip('your test name', function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql(100);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jakson\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers/{{newId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "GetUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test('Vérifier le nom', function() {\r",
+									"    pm.expect(jsonData.name).to.eql(\"Jakson\");\r",
+									"    console.info('j ai bien trouvé le client dont l id est ' + pm.collectionVariables.get(\"newId\") + ' et son nom est ' + jsonData.name);\r",
+									"});\r",
+									"\r",
+									"pm.test('Vérifier la voiture', function() {\r",
+									"    pm.expect(jsonData.car).to.eql(\"Mazda\");\r",
+									"    console.info('j ai bien trouvé le client dont l id est ' + pm.collectionVariables.get(\"newId\") + ' avec sa voiture ' + jsonData.car);\r",
+									"});\r",
+									"\r",
+									"pm.test.skip('your test name', function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql(100);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers/{{newId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "DeletUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    if(pm.response.to.have.status(200)) {\r",
+									"        console.info('Le client dont l id ' + pm.collectionVariables.get(\"newId\") + ' a été supprimé avec succès.');\r",
+									"    }else{\r",
+									"        console.error('Le client n a pas été supprimé avec succès.');\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"pm.test.skip('your test name', function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql(100);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"name\": \"David\",\r\n        \"address\": [],\r\n        \"experience\": false,\r\n        \"car\": \"Mercedes\"\r\n    }"
+						},
+						"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers/{{newId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetAllUsers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"\r",
+							"    if(pm.response.to.have.status(404)) {\r",
+							"       console.log(pm.response.text());\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test.skip('your test name', function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.value).to.eql(100);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://695bcf701d8041d5eeb88ad5.mockapi.io/testapi/api/v1/drivers/{{newId}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"console.info('la valeur de ld est'+pm.collectionVariables.get('id'))"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "newId",
+			"value": ""
+		},
+		{
+			"key": "nom",
+			"value": ""
+		},
+		{
+			"key": "voiture",
+			"value": ""
+		}
+	]
+}
