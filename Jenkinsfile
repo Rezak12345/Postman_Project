@@ -29,9 +29,10 @@ pipeline {
                 if not exist reports mkdir reports
 
                 newman run Collection_Client.postman_collection.json ^
-                -r htmlextra,junit ^
+                -r htmlextra ^
                 --reporter-htmlextra-export reports/report.html ^
-                --reporter-junit-export reports/report.xml
+                --reporter-htmlextra-darkTheme ^
+                --reporter-htmlextra-title "API Test Report"
                 '''
             }
         }
@@ -40,13 +41,14 @@ pipeline {
     post {
         always {
             // Rapport HTML visuel
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'reports',
-                reportFiles: 'report.html',
-                reportName: 'Newman API Report'
+        publishHTML([
+            allowMissing: false,
+            alwaysLinkToLastBuild: true,
+            keepAll: true,
+            reportDir: 'reports',
+            reportFiles: 'report.html',
+            reportName: 'Newman API Report',
+            useWrapperFileDirectly: true
             ])
 
             // Résultats de tests intégrés Jenkins
