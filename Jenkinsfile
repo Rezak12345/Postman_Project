@@ -26,11 +26,7 @@ pipeline {
         stage('Run API Tests') {
             steps {
                 bat '''
-                chcp 65001
                 newman run Collection_Client.postman_collection.json ^
-                --environment environments/test.postman_environment.json ^
-                --reporters cli,htmlextra ^
-                --reporter-htmlextra-export report.html
                 '''
             }
         }
