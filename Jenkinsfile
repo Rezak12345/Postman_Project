@@ -18,8 +18,6 @@ pipeline {
             steps {
                 bat '''
                 npm install -g newman
-                npm install -g newman-reporter-htmlextra
-                npm install -g newman-reporter-junit
                 '''
             }
         }
@@ -30,10 +28,9 @@ pipeline {
                 if not exist reports mkdir reports
 
                 newman run Collection_Client.postman_collection.json ^
-                -r htmlextra,junit ^
-                --reporter-htmlextra-export reports/report.html ^
-                --reporter-junit-export reports/report.xml ^
-                --reporter-htmlextra-title "API Test Report"
+                -r html,junit ^
+                --reporter-html-export reports/report.html ^
+                --reporter-junit-export reports/report.xml
                 '''
             }
         }
@@ -47,8 +44,7 @@ pipeline {
                 keepAll: true,
                 reportDir: 'reports',
                 reportFiles: 'report.html',
-                reportName: 'Newman API Report',
-                useWrapperFileDirectly: true
+                reportName: 'Newman API Report'
             ])
 
             junit allowEmptyResults: true, testResults: 'reports/report.xml'
