@@ -27,10 +27,7 @@ pipeline {
                 bat '''
                 if not exist reports mkdir reports
 
-                newman run Collection_Client.postman_collection.json ^
-                -r html,junit ^
-                --reporter-html-export reports/report.html ^
-                --reporter-junit-export reports/report.xml
+                newman run C:\Users\User\Desktop\Postman_Collections\Collection_Client.postman_collection.json -r htmlextra --reporter-htmlextra-export ./Latest_Run/report.html
                 '''
             }
         }
