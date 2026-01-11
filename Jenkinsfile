@@ -26,7 +26,12 @@ pipeline {
         stage('Run API Tests') {
             steps {
                 bat '''
+                if not exist reports mkdir reports
+
                 newman run Collection_Client.postman_collection.json ^
+                -r htmlextra,junit ^
+                --reporter-htmlextra-export reports/report.html ^
+                --reporter-junit-export reports/report.xml
                 '''
             }
         }
@@ -34,14 +39,18 @@ pipeline {
 
     post {
         always {
+            // Rapport HTML visuel
             publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
-                reportDir: '.',
+                reportDir: 'reports',
                 reportFiles: 'report.html',
                 reportName: 'Newman API Report'
             ])
+
+            // Résultats de tests intégrés Jenkins
+            junit 'reports/report.xml'
         }
 
         failure {
