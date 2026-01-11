@@ -19,6 +19,7 @@ pipeline {
                 bat '''
                 npm install -g newman
                 npm install -g newman-reporter-htmlextra
+                npm install -g newman-reporter-junit
                 '''
             }
         }
@@ -29,9 +30,9 @@ pipeline {
                 if not exist reports mkdir reports
 
                 newman run Collection_Client.postman_collection.json ^
-                -r htmlextra ^
+                -r htmlextra,junit ^
                 --reporter-htmlextra-export reports/report.html ^
-                --reporter-htmlextra-darkTheme ^
+                --reporter-junit-export reports/report.xml ^
                 --reporter-htmlextra-title "API Test Report"
                 '''
             }
@@ -40,19 +41,17 @@ pipeline {
 
     post {
         always {
-            // Rapport HTML visuel
-        publishHTML([
-            allowMissing: false,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'reports',
-            reportFiles: 'report.html',
-            reportName: 'Newman API Report',
-            useWrapperFileDirectly: true
+            publishHTML([
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'report.html',
+                reportName: 'Newman API Report',
+                useWrapperFileDirectly: true
             ])
 
-            // Résultats de tests intégrés Jenkins
-            junit 'reports/report.xml'
+            junit allowEmptyResults: true, testResults: 'reports/report.xml'
         }
 
         failure {
