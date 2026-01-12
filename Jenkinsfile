@@ -18,6 +18,7 @@ pipeline {
             steps {
                 bat '''
                 npm install -g newman
+                npm install -g newman-reporter-htmlextra
                 '''
             }
         }
@@ -25,9 +26,13 @@ pipeline {
         stage('Run API Tests') {
             steps {
                 bat '''
+                chcp 65001
                 if not exist reports mkdir reports
 
-                newman run C:\Users\User\Desktop\Postman_Collections\Collection_Client.postman_collection.json -r htmlextra --reporter-htmlextra-export ./Latest_Run/report.html
+                newman run Collection_Client.postman_collection.json ^
+                --reporters cli,htmlextra ^
+                --reporter-htmlextra-export reports/report.html ^
+                --reporter-junit-export reports/report.xml
                 '''
             }
         }
@@ -35,7 +40,7 @@ pipeline {
 
     post {
         always {
-            publishHTML([
+            publishHTML(target: [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
