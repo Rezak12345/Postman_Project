@@ -1,0 +1,37 @@
+name: Run Postman Collection (Windows)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  postman-tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '17'
+
+      - name: Install Newman and HTML Extra Reporter
+        run: |
+          npm install -g newman@5
+          npm install -g newman-reporter-htmlextra
+
+      - name: Run Postman collection
+        shell: cmd
+        run: |
+          mkdir reports
+          newman run Collection_Client.postman_collection.json -r htmlextra --reporter-htmlextra-export reports/postman-report.html
+
+      - name: Publish Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-html-report
+          path: reports/postman-report.html
