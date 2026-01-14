@@ -11,9 +11,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '17'
 
@@ -23,11 +25,10 @@ jobs:
           npm install -g newman-reporter-htmlextra
 
       - name: Run Postman collection
+        shell: cmd
         run: |
           mkdir reports
-          newman run Collection_Client.postman_collection.json \
-            -r htmlextra \
-            --reporter-htmlextra-export reports/postman-report.html
+          newman run Collection_Client.postman_collection.json -r htmlextra --reporter-htmlextra-export reports/postman-report.html
 
       - name: Publish Report
         uses: actions/upload-artifact@v4
