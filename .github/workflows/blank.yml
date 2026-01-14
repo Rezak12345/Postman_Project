@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-  workflow_dispatch:   # déclenchement manuel
+  workflow_dispatch:
 
 jobs:
   postman-tests:
@@ -26,11 +26,11 @@ jobs:
 
       - name: Run Postman collection
         run: |
-          newman run postman/collection.json ^
-            -e postman/environment.json ^
-            -r cli,htmlextra ^
-            --reporter-htmlextra-export postman-report.html ^
-            --reporter-htmlextra-title "Postman API Tests" ^
+          newman run postman/collection.json `
+            -e postman/environment.json `
+            -r cli,htmlextra `
+            --reporter-htmlextra-export postman-report.html `
+            --reporter-htmlextra-title "Postman API Tests" `
             --reporter-htmlextra-darkTheme
 
       - name: Upload HTML Report
