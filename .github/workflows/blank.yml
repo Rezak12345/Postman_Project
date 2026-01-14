@@ -26,13 +26,14 @@ jobs:
 
       - name: Run Postman collection
         run: |
-          newman run C:\Users\User\Desktop\Postman_Collections\Collection_Client.postman_collection.json `
+          newman run ./Collection_Client.postman_collection.json `
             -r cli,htmlextra `
             --reporter-htmlextra-export postman-report.html `
-            --reporter-htmlextra-title "Postman API Tests" `
+            --reporter-htmlextra-title "Postman Client API Tests" `
             --reporter-htmlextra-darkTheme
 
       - name: Upload HTML Report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: postman-html-report
