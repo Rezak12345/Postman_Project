@@ -26,8 +26,7 @@ jobs:
 
       - name: Run Postman collection
         run: |
-          newman run postman/collection.json `
-            -e postman/environment.json `
+          newman run C:\Users\User\Desktop\Postman_Collections\Collection_Client.postman_collection.json `
             -r cli,htmlextra `
             --reporter-htmlextra-export postman-report.html `
             --reporter-htmlextra-title "Postman API Tests" `
