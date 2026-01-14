@@ -17,24 +17,21 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '17'
 
       - name: Install Newman and HTML Extra Reporter
         run: |
-          npm install -g newman
+          npm install -g newman@5
           npm install -g newman-reporter-htmlextra
 
       - name: Run Postman collection
+        shell: cmd
         run: |
-          newman run ./Collection_Client.postman_collection.json `
-            -r cli,htmlextra `
-            --reporter-htmlextra-export postman-report.html `
-            --reporter-htmlextra-title "Postman Client API Tests" `
-            --reporter-htmlextra-darkTheme
+          mkdir reports
+          newman run Collection_Client.postman_collection.json -r htmlextra --reporter-htmlextra-export reports/postman-report.html
 
-      - name: Upload HTML Report
-        if: always()
+      - name: Publish Report
         uses: actions/upload-artifact@v4
         with:
           name: postman-html-report
-          path: postman-report.html
+          path: reports/postman-report.html
