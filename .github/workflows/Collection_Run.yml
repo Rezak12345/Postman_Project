@@ -25,16 +25,12 @@ jobs:
       - name: Run Postman collection
         run: |
           mkdir reports
-          newman run ./Collection_Client.postman_collection.json `
-            -r cli,htmlextra `
-            --reporter-htmlextra-export reports/postman-report.html `
-            --reporter-htmlextra-title "Postman Client API Tests" `
-            --reporter-htmlextra-darkTheme
+          newman run Collection_Client.postman_collection.json --reporters cli,htmlextra --reporter-htmlextra-export reports/postman-report.html --reporter-htmlextra-title "Postman Client API Tests" --reporter-htmlextra-darkTheme
 
-      - name: List generated files
+      - name: Debug reports folder
         if: always()
         run: |
-          Get-ChildItem -Recurse
+          Get-ChildItem reports -Recurse
 
       - name: Upload HTML Report
         if: always()
